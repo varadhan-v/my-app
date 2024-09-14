@@ -24,7 +24,8 @@ node{
    sh 'docker push varadhanloganathan/myfirst:0.0.2'
    }
    stage('Nexus Image Push'){
-   sh "docker login -u admin -p admin@123 107.20.128.171:8083"
+   withCredentials([string(credentialsId: 'nexusPass', variable: 'nexusPassword')]) {
+   sh "docker login -u admin -p ${nexusPassword} 107.20.128.171:8083"
    sh "docker tag varadhan/myfirst:0.0.2 107.20.128.171:8083/damo:1.0.0"
    sh 'docker push 107.20.128.171:8083/damo:1.0.0'
    }
